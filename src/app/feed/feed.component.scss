@@ -1,0 +1,52 @@
+.logo-container {
+  border-radius: 9999px;
+  width: 2.5rem;
+  height: 2.5rem;
+  vertical-align: middle;
+}
+
+.stock-ticker {
+  vertical-align: middle;
+  display: table-row;
+  font-weight: 500;
+}
+.stock-name {
+  vertical-align: middle;
+  display: table-row;
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+table {
+  width: 60%;
+  justify-content: center;
+}
+
+.mat-cell {
+  align-items: flex-start;
+}
+
+.mat-column-price {
+  text-align: right;
+  justify-content: flex-end;
+  width: 20%;
+}
+
+.mat-column-marketCap {
+  text-align: right;
+  justify-content: flex-end;
+  width: 25%;
+  padding-right: 1rem;
+}
+
+.mat-column-logo {
+  width: 10%;
+}
+
+.mat-column-name {
+  width: 40%;
+}
+
+.mat-column-delete {
+  width: 5%;
+}

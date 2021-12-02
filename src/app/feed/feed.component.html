@@ -1,0 +1,53 @@
+<table ngif="feed" mat-table [dataSource]="feed.stock" class="mat-elevation-z8">
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Logo Column -->
+  <ng-container matColumnDef="logo">
+    <th mat-header-cell *matHeaderCellDef>Logo</th>
+    <td mat-cell *matCellDef="let element">
+      <a href="{{ element.weburl }}">
+        <img class="logo-container" src="{{ element.logo }}" />
+      </a>
+    </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Name</th>
+    <td mat-cell *matCellDef="let element">
+      <p class="stock-ticker">{{ element.ticker }}</p>
+      <p class="stock-name">
+        {{ element.name }}
+      </p>
+    </td>
+  </ng-container>
+
+  <!-- Price Column -->
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef>Price</th>
+    <td mat-cell *matCellDef="let element">
+      {{ priceList[element.ticker] | number: "1.2-2" }} {{ element.currency }}
+    </td>
+  </ng-container>
+
+  <!-- MarketCap Column -->
+  <ng-container matColumnDef="marketCap">
+    <th mat-header-cell *matHeaderCellDef>Market Cap (M)</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.marketCapitalization | number: "1.0-0" }}
+      {{ element.currency }}
+    </td>
+  </ng-container>
+
+  <!-- Delete Column -->
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef [hidden]="!isAuth"></th>
+    <td mat-cell *matCellDef [hidden]="!isAuth">
+      <button mat-icon-button><mat-icon color="warn">close</mat-icon></button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
