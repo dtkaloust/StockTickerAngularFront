@@ -1,0 +1,14 @@
+.table {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 4rem;
+}
+
+.is-clicked {
+  font-weight: bold;
+}
+
+.mat-row:hover .mat-cell {
+  background-color: lightgray;
+}

@@ -1,0 +1,51 @@
+<table
+  ngif="feedItemList"
+  mat-table
+  [dataSource]="feedItemList"
+  class="mat-elevation-z8"
+  fxFill
+>
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="feedName">
+    <th mat-header-cell *matHeaderCellDef>Feed Name</th>
+    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="public">
+    <th mat-header-cell *matHeaderCellDef>Public</th>
+    <td mat-cell *matCellDef="let element">
+      <mat-checkbox
+        color="primary"
+        [(ngModel)]="element.isPublic"
+        (click)="
+          changeStatus.emit(element.name); $event.stopImmediatePropagation()
+        "
+      ></mat-checkbox>
+    </td>
+  </ng-container>
+
+  <!-- Delete Column -->
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        (click)="deleted.emit(element.name); $event.stopImmediatePropagation()"
+        mat-icon-button
+      >
+        <mat-icon color="warn">close</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr
+    mat-row
+    (click)="selectedFeed = row; selected.emit(row)"
+    [class.is-clicked]="selectedFeed ? row.name == selectedFeed.name : false"
+    *matRowDef="let row; columns: displayedColumns"
+  ></tr>
+</table>

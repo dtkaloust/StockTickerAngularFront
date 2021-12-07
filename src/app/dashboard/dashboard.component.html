@@ -1,0 +1,34 @@
+<mat-toolbar color="primary" fxLayoutAlign="space-between center">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-icon>person</mat-icon>
+    <span>{{ payload ? payload.email : "" }}</span>
+  </div>
+
+  <span class="title">
+    {{ title }}
+  </span>
+  <button color="accent" mat-raised-button (click)="clickHandler()">
+    {{ isAuthenticated ? "logout" : "login" }}
+  </button>
+</mat-toolbar>
+<div fxLayout="row" fxLayoutAlign="space-around start">
+  <div class="feedSelector">
+    <app-feed-selector
+      [trackedFeedList]="trackedFeeds"
+      [customFeedList]="customFeeds"
+      (selected)="setCurrentFeed($event)"
+      (retrieveCustomFeeds)="loadCustomFeeds()"
+    ></app-feed-selector>
+  </div>
+  <div>
+    <app-stock-search
+      (addTickerToFeed)="addTickerToFeed($event)"
+    ></app-stock-search>
+  </div>
+
+  <app-feed
+    [feed]="currentFeed"
+    [priceList]="priceList"
+    [isAuth]="isAuthenticated"
+  ></app-feed>
+</div>

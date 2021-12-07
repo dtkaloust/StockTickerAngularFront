@@ -10,12 +10,8 @@ import { StockService } from '../shared/services/stock.service';
 export class FeedComponent {
   @Input() feed: Feed;
   @Input() priceList;
-  isAuth: boolean = false;
-  constructor(private stockService: StockService) {}
+  @Input() isAuth: boolean;
+  constructor() {}
 
   displayedColumns: String[] = ['logo', 'name', 'price', 'marketCap', 'delete'];
-
-  // fetchPrice(ticker): String {
-  //   return this.stockService.fetchPrice(ticker);
-  // }
 }

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Feed } from '../interfaces/feed';
@@ -21,6 +21,39 @@ export class FeedService {
 
   retrieveDefaultFeed(): Observable<Feed> {
     return this.http.get<Feed>(`${this.getUrl()}default/retrieve`);
+  }
+
+  createNewCustomFeed(newFeedName: String): Observable<Feed> {
+    let params = new HttpParams();
+    params = params.append('feedName', String(newFeedName));
+    return this.http.post<Feed>(`${this.getUrl()}custom/create`, '', {
+      params,
+    });
+  }
+
+  deleteCustomFeed(feedName: String) {
+    let params = new HttpParams();
+    params = params.append('feedName', String(feedName));
+    return this.http.delete(`${this.getUrl()}custom/delete`, {
+      params,
+    });
+  }
+
+  changeStatus(feedName: String) {
+    let params = new HttpParams();
+    params = params.append('feedName', String(feedName));
+    return this.http.put(`${this.getUrl()}custom/status`, '', {
+      params,
+    });
+  }
+
+  addTickerToFeed(ticker: String, feedName: String): Observable<Feed> {
+    let params = new HttpParams();
+    params = params.append('feedName', String(feedName));
+    params = params.append('stockName', String(ticker));
+    return this.http.post<Feed>(`${this.getUrl()}custom/add`, '', {
+      params,
+    });
   }
 
   private getUrl() {
