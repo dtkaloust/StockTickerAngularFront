@@ -33,20 +33,23 @@ export class DashboardComponent implements OnInit {
   mySubscription: Subscription;
   isAuthenticated: boolean = false;
   cognitoUser: CognitoUser;
-  payload;
+  allTickers: String[];
+  idToken;
 
   ngOnInit(): void {
     this.loadDefaultFeed();
     this.loadCustomFeeds();
     this.loadTrackedFeeds();
+
     this.isAuthenticated = this.auth.isLoggedIn();
-    this.cognitoUser = this.auth.getUser();
-    this.payload = this.auth.getIdToken().payload;
+    this.cognitoUser = this.auth.getUser() || null;
+    this.idToken = this.auth.getIdToken();
   }
 
   loadDefaultFeed() {
     this.feedService.retrieveDefaultFeed().subscribe((feed) => {
       this.defaultFeed = feed;
+      console.log(feed);
       this.setCurrentFeed(feed);
     });
   }
@@ -59,7 +62,7 @@ export class DashboardComponent implements OnInit {
 
   loadCustomFeeds() {
     this.feedService.retrieveCustomFeeds().subscribe((feeds) => {
-      console.log('we are here');
+      console.log(feeds);
       this.customFeeds = feeds;
     });
   }
@@ -69,7 +72,6 @@ export class DashboardComponent implements OnInit {
     this.updatePrices();
   }
 
-  //make object assign
   updatePrices() {
     let tickersNeeded = this.currentFeed.stock.map((stock) => {
       return stock.ticker;
@@ -97,6 +99,15 @@ export class DashboardComponent implements OnInit {
     } else {
       this.onLogin();
     }
+  }
+
+  removeStock(event: { stockName: String; feedName: String }) {
+    this.feedService
+      .removeTicker(event.feedName, event.stockName)
+      .subscribe((val) => {
+        this.loadCustomFeeds();
+        this.setCurrentFeed(val);
+      });
   }
 
   addTickerToFeed(ticker: String): void {

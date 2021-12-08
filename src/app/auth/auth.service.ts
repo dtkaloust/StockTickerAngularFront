@@ -37,18 +37,22 @@ export class AuthService {
 
   getUser(): CognitoUser {
     var userPool = new CognitoUserPool(this.poolData);
-    var cognitoUser = userPool.getCurrentUser();
-
-    return cognitoUser;
+    return userPool.getCurrentUser() || null;
   }
 
   getAccessToken(): CognitoAccessToken {
-    console.log(this.getSession().getAccessToken().getJwtToken());
-    return this.getSession().getAccessToken();
+    let session = this.getSession();
+    return session ? session.getAccessToken() : null;
+  }
+
+  getJWT() {
+    let accessToken = this.getAccessToken();
+    return accessToken ? accessToken.getJwtToken() : '';
   }
 
   getIdToken(): CognitoIdToken {
-    return this.getSession().getIdToken();
+    let session = this.getSession();
+    return session ? session.getIdToken() : null;
   }
 
   private getSession(): CognitoUserSession {
@@ -60,6 +64,7 @@ export class AuthService {
       cognitoUser.getSession((err: any, session: any) => {
         if (err) {
           alert(err.message || JSON.stringify(err));
+          return null;
         }
         currentSession = session;
       });

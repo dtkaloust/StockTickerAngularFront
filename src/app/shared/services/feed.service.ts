@@ -39,6 +39,15 @@ export class FeedService {
     });
   }
 
+  removeTicker(feedName: String, stockName: String): Observable<Feed> {
+    let params = new HttpParams();
+    params = params.append('feedName', String(feedName));
+    params = params.append('stockName', String(stockName));
+    return this.http.delete<Feed>(`${this.getUrl()}custom/remove`, {
+      params,
+    });
+  }
+
   changeStatus(feedName: String) {
     let params = new HttpParams();
     params = params.append('feedName', String(feedName));
@@ -52,6 +61,26 @@ export class FeedService {
     params = params.append('feedName', String(feedName));
     params = params.append('stockName', String(ticker));
     return this.http.post<Feed>(`${this.getUrl()}custom/add`, '', {
+      params,
+    });
+  }
+
+  trackNewFeed(feedName: String): Observable<Feed> {
+    let params = new HttpParams();
+    params = params.append('feedName', String(feedName));
+    return this.http.post<Feed>(`${this.getUrl()}tracked/add`, '', {
+      params,
+    });
+  }
+
+  getAllPublicFeeds(): Observable<String[]> {
+    return this.http.get<String[]>(`${this.getUrl()}all`);
+  }
+
+  removeTrackedFeed(feedName: String): Observable<Feed> {
+    let params = new HttpParams();
+    params = params.append('feedName', String(feedName));
+    return this.http.delete<Feed>(`${this.getUrl()}tracked/remove`, {
       params,
     });
   }

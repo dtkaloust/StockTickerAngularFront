@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Feed } from '../shared/interfaces/feed';
 import { StockService } from '../shared/services/stock.service';
 
@@ -10,7 +10,9 @@ import { StockService } from '../shared/services/stock.service';
 export class FeedComponent {
   @Input() feed: Feed;
   @Input() priceList;
-  @Input() isAuth: boolean;
+  @Input() canRemove: boolean;
+  @Output() deleted: EventEmitter<{ feedName: String; stockName: String }> =
+    new EventEmitter();
   constructor() {}
 
   displayedColumns: String[] = ['logo', 'name', 'price', 'marketCap', 'delete'];

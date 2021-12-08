@@ -20,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
       setHeaders: {
         'Content-Type': 'application/json',
         accept: 'application/json',
-        Authorization: `Bearer ${this.auth.getAccessToken().getJwtToken()}`,
+        Authorization: `Bearer ${this.auth.getJWT()}`,
         'Access-Control-Allow-Origin': '*',
       },
     });

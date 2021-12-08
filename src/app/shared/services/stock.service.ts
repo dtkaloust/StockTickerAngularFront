@@ -10,19 +10,16 @@ const BASE_URL = 'http://localhost:8080/api/v1/stock/';
 export class StockService {
   constructor(private http: HttpClient) {}
 
-  fetchPrice(ticker): String {
-    var test = this.http
-      .get(`${this.getUrl()}price/${ticker}`)
-      .subscribe((val) => console.log(JSON.stringify(val)));
-    return 'hi';
-  }
-
   fetchPrices(tickers: String[]): Observable<String[]> {
     let params = new HttpParams();
     params = params.append('tickers', String(tickers));
     return this.http.get<String[]>(`${this.getUrl()}prices`, {
       params,
     });
+  }
+
+  getAllTickers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.getUrl()}all`);
   }
 
   private getUrl() {

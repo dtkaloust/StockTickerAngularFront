@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Feed } from '../shared/interfaces/feed';
 
 @Component({
@@ -6,14 +13,13 @@ import { Feed } from '../shared/interfaces/feed';
   templateUrl: './feed-list.component.html',
   styleUrls: ['./feed-list.component.scss'],
 })
-export class FeedListComponent implements OnInit {
+export class FeedListComponent {
   constructor() {}
   @Input() feedItemList: Feed[];
   @Input() displayedColumns: String[];
+  @Input() isActive;
+  @Input() selectedFeed: Feed;
   @Output() selected: EventEmitter<Feed> = new EventEmitter();
   @Output() deleted: EventEmitter<String> = new EventEmitter();
   @Output() changeStatus: EventEmitter<String> = new EventEmitter();
-  selectedFeed: Feed;
-
-  ngOnInit(): void {}
 }

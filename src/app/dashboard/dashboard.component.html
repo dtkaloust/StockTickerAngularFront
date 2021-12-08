@@ -1,34 +1,57 @@
 <mat-toolbar color="primary" fxLayoutAlign="space-between center">
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <mat-icon>person</mat-icon>
-    <span>{{ payload ? payload.email : "" }}</span>
+    <span>{{ idToken ? idToken.payload.email : "" }}</span>
   </div>
 
   <span class="title">
-    {{ title }}
+    {{
+      currentFeed && currentFeed.name != null
+        ? currentFeed.name
+        : "Popular Stocks"
+    }}
   </span>
   <button color="accent" mat-raised-button (click)="clickHandler()">
     {{ isAuthenticated ? "logout" : "login" }}
   </button>
 </mat-toolbar>
 <div fxLayout="row" fxLayoutAlign="space-around start">
-  <div class="feedSelector">
+  <div *ngIf="isAuthenticated" fxLayoutAlign="end start" class="feedSelector">
     <app-feed-selector
+      *ngIf="isAuthenticated"
       [trackedFeedList]="trackedFeeds"
       [customFeedList]="customFeeds"
       (selected)="setCurrentFeed($event)"
       (retrieveCustomFeeds)="loadCustomFeeds()"
+      (retrieveTrackedFeeds)="loadTrackedFeeds()"
     ></app-feed-selector>
   </div>
-  <div>
+
+  <div class="feed-view">
     <app-stock-search
+      *ngIf="
+        isAuthenticated &&
+        idToken &&
+        currentFeed &&
+        currentFeed.creatorId == idToken.payload.sub
+      "
+      fxLayout="row"
+      fxLayoutAlign="start end"
       (addTickerToFeed)="addTickerToFeed($event)"
     ></app-stock-search>
+    <div fxLayoutAlign="center start">
+      <app-feed
+        *ngIf="currentFeed"
+        [feed]="currentFeed"
+        [priceList]="priceList"
+        [canRemove]="
+          isAuthenticated &&
+          idToken &&
+          currentFeed &&
+          currentFeed.creatorId == idToken.payload.sub
+        "
+        (deleted)="removeStock($event)"
+      ></app-feed>
+    </div>
   </div>
-
-  <app-feed
-    [feed]="currentFeed"
-    [priceList]="priceList"
-    [isAuth]="isAuthenticated"
-  ></app-feed>
 </div>

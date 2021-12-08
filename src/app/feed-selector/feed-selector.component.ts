@@ -14,17 +14,33 @@ export class FeedSelectorComponent implements OnInit {
   @Input() trackedFeedList: Feed[];
   @Output() selected: EventEmitter<Feed> = new EventEmitter();
   @Output() retrieveCustomFeeds = new EventEmitter();
+  @Output() retrieveTrackedFeeds = new EventEmitter();
+  allPublicFeeds: String[];
+  newTrackedFeedName: String;
   newFeedName: String;
+  selectedFeed: Feed;
 
   onCreateFeed(form: NgForm) {
-    this.feedService.createNewCustomFeed(this.newFeedName).subscribe((val) => {
-      this.retrieveCustomFeeds.next();
-    });
+    this.feedService
+      .createNewCustomFeed(form.form.value.newFeedName)
+      .subscribe((val) => {
+        this.retrieveCustomFeeds.next();
+      });
+  }
+
+  onTabChange(item) {
+    console.log(item);
   }
 
   onDeleteFeed(feedName: String) {
     this.feedService.deleteCustomFeed(feedName).subscribe((val) => {
       this.retrieveCustomFeeds.next();
+    });
+  }
+
+  onRemoveFeed(feedName: String) {
+    this.feedService.removeTrackedFeed(feedName).subscribe((val) => {
+      this.retrieveTrackedFeeds.next();
     });
   }
 
@@ -34,5 +50,21 @@ export class FeedSelectorComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  onTrackFeed(form: NgForm) {
+    this.feedService
+      .trackNewFeed(form.form.value.newTrackedFeedName)
+      .subscribe((val) => {
+        this.retrieveTrackedFeeds.next();
+      });
+  }
+
+  updateSelectedFeed(feed: Feed) {
+    this.selectedFeed = feed;
+  }
+
+  ngOnInit(): void {
+    this.feedService.getAllPublicFeeds().subscribe((val) => {
+      this.allPublicFeeds = val;
+    });
+  }
 }

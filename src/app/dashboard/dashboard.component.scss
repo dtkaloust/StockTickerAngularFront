@@ -2,12 +2,26 @@ app-feed {
   width: 85%;
   display: flex;
   justify-content: center;
-  padding-top: 4rem;
+}
+
+.feed-view {
+  width: 75%;
+  padding-top: 5rem;
+}
+
+app-stock-search {
+  height: 0rem;
+  display: flex;
+  justify-content: left;
+  padding-left: 16%;
 }
 
 .feedSelector {
   width: 25%;
-  display: flex;
-  justify-content: center;
-  padding-top: 4rem;
+  height: 100%;
+  padding-top: 5rem;
+}
+
+app-feed-selector {
+  height: 100%;
 }

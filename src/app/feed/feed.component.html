@@ -42,9 +42,16 @@
 
   <!-- Delete Column -->
   <ng-container matColumnDef="delete">
-    <th mat-header-cell *matHeaderCellDef [hidden]="!isAuth"></th>
-    <td mat-cell *matCellDef [hidden]="!isAuth">
-      <button mat-icon-button><mat-icon color="warn">close</mat-icon></button>
+    <th mat-header-cell *matHeaderCellDef [hidden]="!canRemove"></th>
+    <td mat-cell *matCellDef="let element" [hidden]="!canRemove">
+      <button
+        (click)="
+          deleted.emit({ stockName: element.ticker, feedName: feed.name })
+        "
+        mat-icon-button
+      >
+        <mat-icon color="warn">close</mat-icon>
+      </button>
     </td>
   </ng-container>
 
