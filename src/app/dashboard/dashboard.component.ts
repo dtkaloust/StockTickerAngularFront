@@ -62,7 +62,6 @@ export class DashboardComponent implements OnInit {
 
   loadCustomFeeds() {
     this.feedService.retrieveCustomFeeds().subscribe((feeds) => {
-      console.log(feeds);
       this.customFeeds = feeds;
     });
   }

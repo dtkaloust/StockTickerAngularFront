@@ -4,58 +4,60 @@
   (selectedTabChange)="onTabChange($event)"
 >
   <mat-tab label="Tracked Feeds" dynamicHeight #publicTab
-    ><form (submit)="onTrackFeed(newTrackedFeed)" #newTrackedFeed="ngForm">
-      <mat-form-field appearance="fill" fxFill>
-        <input
-          fxLayoutAlign="center center"
-          type="text"
-          placeholder="Search Feeds"
-          aria-label="Number"
-          matInput
-          name="newTrackedFeedName"
-          [matAutocomplete]="auto"
-          [(ngModel)]="newTrackedFeedName"
-        />
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-          <mat-option
-            *ngFor="let option of allPublicFeeds | slice: 0:5"
-            [value]="option"
-          >
-            {{ option }}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-    </form>
-    <app-feed-list
-      [isActive]="publicTab.isActive"
-      [feedItemList]="trackedFeedList"
-      [displayedColumns]="['feedName', 'delete']"
-      (selected)="selected.emit($event); updateSelectedFeed($event)"
-      (deleted)="onRemoveFeed($event)"
-      [selectedFeed]="selectedFeed"
-    ></app-feed-list
+    ><div>
+      <form (submit)="onTrackFeed(newTrackedFeed)" #newTrackedFeed="ngForm">
+        <mat-form-field appearance="fill" fxFill>
+          <input
+            fxLayoutAlign="center center"
+            type="text"
+            placeholder="Search Feeds"
+            aria-label="Number"
+            matInput
+            name="newTrackedFeedName"
+            [matAutocomplete]="auto"
+            [(ngModel)]="newTrackedFeedName"
+          />
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let option of allPublicFeeds | slice: 0:5"
+              [value]="option"
+            >
+              {{ option }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+      <app-feed-list
+        [isActive]="publicTab.isActive"
+        [feedItemList]="trackedFeedList"
+        [displayedColumns]="['feedName', 'delete']"
+        (selected)="selected.emit($event); updateSelectedFeed($event)"
+        (deleted)="onRemoveFeed($event)"
+        [selectedFeed]="selectedFeed"
+      ></app-feed-list></div
   ></mat-tab>
   <mat-tab label="Custom Feeds" dynamicHeight #customTab>
-    <form (submit)="onCreateFeed(newFeed)" #newFeed="ngForm">
-      <mat-form-field appearance="fill" fxFill>
-        <input
-          fxLayoutAlign="center center"
-          matInput
-          placeholder="Create a Feed"
-          name="newFeedName"
-          type="text"
-          [(ngModel)]="newFeedName"
-        />
-      </mat-form-field>
-    </form>
-    <app-feed-list
-      [isActive]="customTab.isActive"
-      [feedItemList]="customFeedList"
-      [displayedColumns]="['feedName', 'public', 'delete']"
-      (selected)="selected.emit($event); updateSelectedFeed($event)"
-      (deleted)="onDeleteFeed($event)"
-      (changeStatus)="onChangeStatus($event)"
-      [selectedFeed]="selectedFeed"
-    ></app-feed-list
+    <div>
+      <form (submit)="onCreateFeed(newFeed)" #newFeed="ngForm">
+        <mat-form-field appearance="fill" fxFill>
+          <input
+            fxLayoutAlign="center center"
+            matInput
+            placeholder="Create a Feed"
+            name="newFeedName"
+            type="text"
+            [(ngModel)]="newFeedName"
+          />
+        </mat-form-field>
+      </form>
+      <app-feed-list
+        [isActive]="customTab.isActive"
+        [feedItemList]="customFeedList"
+        [displayedColumns]="['feedName', 'public', 'delete']"
+        (selected)="selected.emit($event); updateSelectedFeed($event)"
+        (deleted)="onDeleteFeed($event)"
+        (changeStatus)="onChangeStatus($event)"
+        [selectedFeed]="selectedFeed"
+      ></app-feed-list></div
   ></mat-tab>
 </mat-tab-group>
